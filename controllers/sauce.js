@@ -65,7 +65,7 @@ exports.modifySauce = (req, res, next) => {
     });
 };
 
-exports.deletesauce = (req, res, next) => {
+exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (sauce.userId != req.auth.userId) {
@@ -86,7 +86,7 @@ exports.deletesauce = (req, res, next) => {
     });
 };
 
-exports.getAllStuff = (req, res, next) => {
+exports.getAllSauce = (req, res, next) => {
   Sauce.find()
     .then((sauce) => {
       res.status(200).json(sauce);
