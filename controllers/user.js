@@ -1,14 +1,45 @@
 const bcrypt = require("bcrypt"); // importe la bibliothèque bcrypt
-const jwt = require('jsonwebtoken'); // mporte la bibliothèque jsonwebtoken
+const jwt = require("jsonwebtoken"); // mporte la bibliothèque jsonwebtoken
 
 const User = require("../models/User"); // importe le modèle de données User défini dans le fichier User.js
 
+// les condition pour mot de passe
+const verifier_mot_de_passe = (mot_de_passe) => {
+  if (mot_de_passe.length < 8) {
+    // minimum de 8 caractere
+    return false;
+  }
+
+  const majuscule = /[A-Z]/;
+  const chiffres = /\d/g;
+
+  if (!majuscule.test(mot_de_passe)) {
+    return false;
+  }
+
+  const resultat = mot_de_passe.match(chiffres);
+  if (resultat === null || resultat.length < 2) {
+    return false;
+  }
+
+  return true;
+};
+
 // La méthode exports.signup est le contrôleur qui gère la création d'un nouvel utilisateur.
 exports.signup = (req, res, next) => {
+  const { password, email } = req.body;
+  if (!verifier_mot_de_passe(password)) {
+    // verification si respect des regles ci dessus
+    return res.status(400).json({
+      message:
+        "Le mot de passe doit contenir au moins 8 caractères, 1 majuscule et 2 chiffres.", // sinon message d'erreur
+    });
+  }
   bcrypt
     .hash(req.body.password, 10) // methode hash pour le password + le nombre 10 qui définie le nombre d'iteration
     .then((hash) => {
-      const user = new User({ // stockage de l'email et le password du client apres la méthode hash
+      const user = new User({
+        // stockage de l'email et le password du client apres la méthode hash
         email: req.body.email,
         password: hash,
       });
