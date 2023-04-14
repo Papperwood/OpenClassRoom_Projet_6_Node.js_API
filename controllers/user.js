@@ -5,12 +5,11 @@ const User = require("../models/User"); // importe le modèle de données User d
 
 // les condition pour mot de passe
 const verifier_mot_de_passe = (mot_de_passe) => {
-  if (mot_de_passe.length < 8) {
-    // minimum de 8 caractere
+  if (mot_de_passe.length < 8) { // minimum de 8 caractere
     return false;
   }
 
-  const majuscule = /[A-Z]/;
+  const majuscule = /[A-Z]/; // def des maj
   const chiffres = /\d/g;
 
   if (!majuscule.test(mot_de_passe)) {
@@ -18,7 +17,7 @@ const verifier_mot_de_passe = (mot_de_passe) => {
   }
 
   const resultat = mot_de_passe.match(chiffres);
-  if (resultat === null || resultat.length < 2) {
+  if (resultat === null || resultat.length < 2) { // minimum de 2 chiffres
     return false;
   }
 
@@ -28,8 +27,7 @@ const verifier_mot_de_passe = (mot_de_passe) => {
 // La méthode exports.signup est le contrôleur qui gère la création d'un nouvel utilisateur.
 exports.signup = (req, res, next) => {
   const { password, email } = req.body;
-  if (!verifier_mot_de_passe(password)) {
-    // verification si respect des regles ci dessus
+  if (!verifier_mot_de_passe(password)) { // verification si respect des regles ci dessus
     return res.status(400).json({
       message:
         "Le mot de passe doit contenir au moins 8 caractères, 1 majuscule et 2 chiffres.", // sinon message d'erreur
