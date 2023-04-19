@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // les condition pour mot de passe
-const verifier_mot_de_passe = (mot_de_passe) => {
+const verify_password = (mot_de_passe) => {
   if (mot_de_passe.length < 8) { // minimum de 8 caractere
     return false;
   }
@@ -29,7 +29,7 @@ const verifier_mot_de_passe = (mot_de_passe) => {
 // La méthode exports.signup est le contrôleur qui gère la création d'un nouvel utilisateur.
 exports.signup = (req, res, next) => {
   const { password, email } = req.body;
-  if (!verifier_mot_de_passe(password)) { // verification si respect des regles ci dessus
+  if (!verify_password(password)) { // verification si respect des regles ci dessus
     return res.status(400).json({
       message:
         "Le mot de passe doit contenir au moins 8 caractères, 1 majuscule et 2 chiffres.", // sinon message d'erreur
