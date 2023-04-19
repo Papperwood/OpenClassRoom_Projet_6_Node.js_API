@@ -3,6 +3,8 @@ const bodyParser = require("body-parser"); // importe le module body-parser et l
 const mongoose = require("mongoose"); // importe le module mongoose et le stocke dans la constante mongoose pour être utilisée dans le code suivant.
 const path = require("path"); // importe le module path (module intégré de Node.js) et le stocke dans la constante path pour être utilisée dans le code suivant.
 const app = express(); // crée une nouvelle instance d'une application Express et la stocke dans la constante app pour être utilisée dans le code suivant.
+const dotenv = require("dotenv");
+dotenv.config();
 
 const sauceRoutes = require("./routes/sauce"); // importe les routes définies dans le fichier ./routes/sauce et les stocke dans la constante sauceRoutes pour être utilisées dans le code suivant.
 const userRoutes = require("./routes/user"); // importe les routes définies dans le fichier ./routes/user et les stocke dans la constante userRoutes pour être utilisées dans le code suivant.
@@ -10,7 +12,7 @@ const userRoutes = require("./routes/user"); // importe les routes définies dan
 // établit une connexion à une base de données MongoDB en utilisant le module mongoose 
 mongoose
   .connect(
-    "mongodb+srv://mauryalexandref:11OUxNq5uCKiUqLk@cluster0.ycwsj02.mongodb.net/hotTakes?retryWrites=true&w=majority",
+    process.env.MONGODB,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !")) 

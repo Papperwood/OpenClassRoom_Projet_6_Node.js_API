@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt"); // importe la bibliothèque bcrypt
 const jwt = require("jsonwebtoken"); // mporte la bibliothèque jsonwebtoken
 
 const User = require("../models/User"); // importe le modèle de données User défini dans le fichier User.js
+const dotenv = require("dotenv");
+dotenv.config();
 
 // les condition pour mot de passe
 const verifier_mot_de_passe = (mot_de_passe) => {
@@ -67,7 +69,7 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user._id,
             token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
-              expiresIn: "24h",
+              expiresIn: process.env.TIMER_TOKEN,
             }),
           });
         })
